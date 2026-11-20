@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vũ Trụ Tình Yêu Của Chúng Mình ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <audio id="bg-music" src="nhac.mp3" loop preload="auto"></audio>
+
+    <!-- ==========================================
+         MÀN HÌNH 1: TẠO THIỆP & XUẤT LINK
+         ========================================== -->
+    <section id="creator-screen">
+        <div class="creator-card">
+            <h2>✨ Tạo Vũ Trụ Tình Yêu Của Bạn</h2>
+            <p class="creator-sub">Điền thông tin & chọn ảnh từ máy để xuất link gửi người ấy!</p>
+
+            <div class="form-group">
+                <label>1. Đặt mật khẩu mở khóa cho người ấy nhập (4 chữ số):</label>
+                <input type="text" id="inp-pass" maxlength="4" inputmode="numeric" placeholder="Ví dụ: 1402" value="1234">
+            </div>
+
+            <div class="form-group">
+                <label>2. Tên cặp đôi:</label>
+                <input type="text" id="inp-title" placeholder="Ví dụ: Hoàng & Hằng" value="Anh & Em">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>3. Ngày bắt đầu yêu:</label>
+                    <input type="date" id="inp-date" value="2024-06-23">
+                </div>
+                <div class="form-group">
+                    <label>4. Số ngày bên nhau (Tự điền):</label>
+                    <input type="number" id="inp-days" min="0" placeholder="Ví dụ: 730" value="365">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>5. Chọn ảnh chính giữa trái tim & 4 ảnh kỷ niệm:</label>
+
+                <div style="margin-bottom: 10px;">
+                    <label class="upload-item" style="height: 86px; flex-direction: row; gap: 12px; padding: 0 14px;">
+                        <input type="file" accept="image/*" onchange="xuLyChonAnhGiua(this)">
+                        <img id="prev-center" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=200" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; opacity: 1;">
+                        <span style="position: static; background: none; font-size: 13px;">❤️ Chọn ảnh nằm giữa trái tim</span>
+                    </label>
+                </div>
+
+                <div class="upload-grid">
+                    <label class="upload-item">
+                        <input type="file" accept="image/*" onchange="xuLyChonAnh(this, 0)">
+                        <img id="prev-0" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=200">
+                        <span>+ Ảnh 1</span>
+                    </label>
+                    <label class="upload-item">
+                        <input type="file" accept="image/*" onchange="xuLyChonAnh(this, 1)">
+                        <img id="prev-1" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200">
+                        <span>+ Ảnh 2</span>
+                    </label>
+                    <label class="upload-item">
+                        <input type="file" accept="image/*" onchange="xuLyChonAnh(this, 2)">
+                        <img id="prev-2" src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=200">
+                        <span>+ Ảnh 3</span>
+                    </label>
+                    <label class="upload-item">
+                        <input type="file" accept="image/*" onchange="xuLyChonAnh(this, 3)">
+                        <img id="prev-3" src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=200">
+                        <span>+ Ảnh 4</span>
+                    </label>
+                </div>
+
+                <div class="upload-grid" style="margin-top: 8px;">
+                    <input type="text" id="inp-caption-0" placeholder="Tên ảnh 1" value="Lần đầu gặp">
+                    <input type="text" id="inp-caption-1" placeholder="Tên ảnh 2" value="Đi chơi chung">
+                    <input type="text" id="inp-caption-2" placeholder="Tên ảnh 3" value="Kỷ niệm đẹp">
+                    <input type="text" id="inp-caption-3" placeholder="Tên ảnh 4" value="Mãi bên nhau">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>6. Chọn nhạc nền lãng mạn:</label>
+                <select id="inp-music-select" onchange="doiLuaChonNhac()" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.35); color: #fff; font-size: 14px; margin-bottom: 6px; outline: none;">
+                    <option value="nhac.mp3">🎵 Bài 1: Mặc định (nhac.mp3)</option>
+                    <option value="nhac2.mp3">🎵 Bài 2: Nhạc chill TikTok (nhac2.mp3)</option>
+                    <option value="nhac3.mp3">🎵 Bài 3: Piano nhẹ nhàng (nhac3.mp3)</option>
+                    <option value="custom">🔗 Tự dán link file .mp3 khác...</option>
+                </select>
+                <input type="text" id="inp-music-custom" placeholder="Dán link nhạc đuôi .mp3 vào đây..." style="display: none;">
+            </div>
+
+            <div class="form-group">
+                <label>7. Lời chúc trong thiệp:</label>
+                <textarea id="inp-letter" rows="3" placeholder="Viết lời nhắn gửi yêu thương...">Cảm ơn em đã xuất hiện và biến mỗi ngày của anh trở nên thật đặc biệt. Yêu em nhiều! ❤️</textarea>
+            </div>
+
+            <button type="button" class="btn-generate" onclick="taoDuongLink()" style="display: block; width: 100%; padding: 14px; margin-top: 16px; border: none; border-radius: 14px; background: linear-gradient(45deg, #ff4d88, #ff85a2); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 20px rgba(255, 77, 136, 0.5);">🔗 Xuất Link Gửi Người Ấy</button>
+
+            <div id="share-result" style="display: none; margin-top: 16px; padding: 14px; background: rgba(0,0,0,0.35); border-radius: 14px;">
+                <p style="margin-bottom: 8px; font-size: 13px;">🎉 Link của bạn đã sẵn sàng! Hãy sao chép và gửi đi:</p>
+                <div class="link-box" style="display: flex; gap: 8px; margin-bottom: 10px;">
+                    <input type="text" id="generated-url" readonly style="flex: 1; padding: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.9); color: #222; font-size: 13px;">
+                    <button type="button" onclick="copyLink()" style="padding: 0 16px; border: none; border-radius: 10px; background: #ff4d88; color: #fff; font-weight: 700; cursor: pointer;">Copy</button>
+                </div>
+                <button type="button" class="btn-preview" onclick="xemThuNgay()" style="display: block; width: 100%; padding: 11px; border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; background: rgba(255,255,255,0.15); color: #fff; font-weight: 700; cursor: pointer;">👁️ Xem thử giao diện vừa tạo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         MÀN HÌNH 2: KHÓA MẬT KHẨU 4 SỐ
+         ========================================== -->
+    <section id="lock-screen">
+        <div class="lock-card" id="lock-box">
+            <div class="couple-avatar">
+                <img id="lock-avatar" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=200" alt="Avatar">
+            </div>
+            <h2>Mật Mã Tình Yêu</h2>
+            <p class="sub-text">Nhập mật khẩu 4 số để mở khóa 💕</p>
+
+            <div class="dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+
+            <div class="keypad">
+                <button class="key" data-num="1">1</button>
+                <button class="key" data-num="2">2</button>
+                <button class="key" data-num="3">3</button>
+                <button class="key" data-num="4">4</button>
+                <button class="key" data-num="5">5</button>
+                <button class="key" data-num="6">6</button>
+                <button class="key" data-num="7">7</button>
+                <button class="key" data-num="8">8</button>
+                <button class="key" data-num="9">9</button>
+                <button class="key action" id="btn-clear">C</button>
+                <button class="key" data-num="0">0</button>
+                <button class="key action" id="btn-del">⌫</button>
+            </div>
+            <p id="pass-msg"></p>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         MÀN HÌNH 3: VŨ TRỤ TRÁI TIM & ALBUM (NỀN BẦU TRỜI SAO)
+         ========================================== -->
+    <main id="universe" style="background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);">
+        <canvas id="canvas"></canvas>
+
+        <div class="top-banner">
+            <h1 class="glow-title" id="display-title">Anh & Em</h1>
+            <div class="love-timer" id="love-timer">Đang tải thời gian yêu...</div>
+        </div>
+
+        <div class="gallery-layer">
+            <div class="polaroid p1" onclick="xemAnh(0)">
+                <img id="img-0" src="">
+                <span id="cap-0">Lần đầu gặp</span>
+            </div>
+            <div class="polaroid p2" onclick="xemAnh(1)">
+                <img id="img-1" src="">
+                <span id="cap-1">Đi chơi chung</span>
+            </div>
+            <div class="polaroid p3" onclick="xemAnh(2)">
+                <img id="img-2" src="">
+                <span id="cap-2">Kỷ niệm đẹp</span>
+            </div>
+            <div class="polaroid p4" onclick="xemAnh(3)">
+                <img id="img-3" src="">
+                <span id="cap-3">Mãi bên nhau</span>
+            </div>
+        </div>
+
+        <div class="bottom-dock">
+            <button class="dock-btn" onclick="moThiep()">
+                <span>💌</span>
+                <span>Mở Thiệp</span>
+            </button>
+            <button class="dock-btn" onclick="banPhaoHoa()">
+                <span>🎆</span>
+                <span>Pháo Hoa</span>
+            </button>
+            <button class="dock-btn" onclick="toggleNhac()">
+                <span>🎵</span>
+                <span id="music-text">Bật Nhạc</span>
+            </button>
+            <button class="dock-btn" onclick="quayLaiTao()">
+                <span>✏️</span>
+                <span>Tạo Mới</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- POPUP XEM ẢNH PHÓNG TO -->
+    <div id="photo-modal" class="modal" onclick="dongModal('photo-modal')">
+        <div class="photo-detail-card" onclick="event.stopPropagation()">
+            <img id="modal-img" src="">
+            <h3 id="modal-title" style="margin-bottom: 14px; color: #ffccd5;">Kỷ Niệm</h3>
+            <button class="btn-close" onclick="dongModal('photo-modal')">Đóng</button>
+        </div>
+    </div>
+
+    <!-- POPUP MỞ THIỆP CHÚC -->
+    <div id="letter-modal" class="modal" onclick="dongModal('letter-modal')">
+        <div class="letter-card" onclick="event.stopPropagation()">
+            <div class="flower-anim">💐</div>
+            <h3>Gửi Người Thương</h3>
+            <p id="typewriter-text"></p>
+            <button class="btn-close" onclick="dongModal('letter-modal')">Đóng Thiệp</button>
+        </div>
+    </div>
+
+    <script>
+        const IMGBB_API_KEY = "DAN_API_KEY_CUA_BAN_VAO_DAY";
+
+        let CONFIG = {
+            pass: "1234",
+            title: "Anh & Em",
+            date: "2024-06-23",
+            days: 365,
+            music: "nhac.mp3",
+            centerImg: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400",
+            imgs: [
+                "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400",
+                "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400",
+                "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400",
+                "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=400"
+            ],
+            captions: ["Lần đầu gặp", "Đi chơi chung", "Kỷ niệm đẹp", "Mãi bên nhau"],
+            letter: "Cảm ơn em đã xuất hiện và biến mỗi ngày của anh trở nên thật đặc biệt. Yêu em nhiều! ❤️"
+        };
+
+        let uploadedCenterImg = CONFIG.centerImg;
+        let uploadedImages = [...CONFIG.imgs];
+        let dangPhatNhac = false;
+        const bgMusic = document.getElementById("bg-music");
+
+        let heartCenterImageObj = new Image();
+        let isHeartImageLoaded = false;
+
+        function capNhatAnhTrongTraiTim(srcUrl) {
+            if (!srcUrl) return;
+            isHeartImageLoaded = false;
+            const img = new Image();
+            img.onload = function () {
+                heartCenterImageObj = img;
+                isHeartImageLoaded = true;
+            };
+            img.onerror = function () {
+                isHeartImageLoaded = false;
+            };
+            img.src = srcUrl;
+        }
+
+        capNhatAnhTrongTraiTim(CONFIG.centerImg);
+
+        function encodeSafeData(obj) {
+            const jsonStr = JSON.stringify(obj);
+            const bytes = new TextEncoder().encode(jsonStr);
+            let binStr = "";
+            bytes.forEach(b => binStr += String.fromCharCode(b));
+            return btoa(binStr).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        }
+
+        function decodeSafeData(encodedStr) {
+            let base64 = encodedStr.replace(/-/g, "+").replace(/_/g, "/");
+            while (base64.length % 4) base64 += "=";
+            const binStr = atob(base64);
+            const bytes = new Uint8Array(binStr.length);
+            for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+            const jsonStr = new TextDecoder().decode(bytes);
+            return JSON.parse(jsonStr);
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataParam = urlParams.get("data");
+
+            if (dataParam) {
+                try {
+                    const decoded = decodeSafeData(dataParam);
+                    CONFIG = { ...CONFIG, ...decoded };
+                    document.getElementById("creator-screen").style.display = "none";
+                    apDungDuLieuLenGiaoDien();
+                } catch (err) {
+                    alert("Link chia sẻ bị thiếu ký tự do quá dài! Hãy dán API Key ImgBB vào code để link ngắn gọn nhé.");
+                }
+            } else {
+                document.getElementById("creator-screen").style.display = "flex";
+            }
+        });
+
+        function apDungDuLieuLenGiaoDien() {
+            document.getElementById("display-title").textContent = CONFIG.title;
+            const mainImg = CONFIG.centerImg || CONFIG.imgs[0];
+            document.getElementById("lock-avatar").src = mainImg;
+            capNhatAnhTrongTraiTim(mainImg);
+
+            if (bgMusic && CONFIG.music) {
+                bgMusic.src = CONFIG.music;
+                bgMusic.load();
+            }
+
+            CONFIG.imgs.forEach((url, idx) => {
+                const imgEl = document.getElementById(`img-${idx}`);
+                if (imgEl) imgEl.src = url;
+                const capEl = document.getElementById(`cap-${idx}`);
+                if (capEl && CONFIG.captions && CONFIG.captions[idx]) {
+                    capEl.textContent = CONFIG.captions[idx];
+                }
+            });
+        }
+
+        function doiLuaChonNhac() {
+            const sel = document.getElementById("inp-music-select").value;
+            document.getElementById("inp-music-custom").style.display = (sel === "custom") ? "block" : "none";
+        }
+
+        function nenAnhSieuNhe(rawDataUrl, maxWidth, quality, callback) {
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement("canvas");
+                const scale = Math.min(1, maxWidth / img.width);
+                canvas.width = Math.round(img.width * scale);
+                canvas.height = Math.round(img.height * scale);
+                canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+                callback(canvas.toDataURL("image/jpeg", quality));
+            };
+            img.onerror = function () {
+                callback(rawDataUrl);
+            };
+            img.src = rawDataUrl;
+        }
+
+        async function xuLyChonAnhGiua(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const prevEl = document.getElementById("prev-center");
+            const labelSpan = input.parentElement.querySelector("span");
+            if (labelSpan) labelSpan.textContent = "Đang xử lý ảnh giữa...";
+
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                const rawDataUrl = e.target.result;
+                if (prevEl) prevEl.src = rawDataUrl;
+
+                const luuDuPhong = () => {
+                    nenAnhSieuNhe(rawDataUrl, 480, 0.85, (compressedUrl) => {
+                        uploadedCenterImg = compressedUrl;
+                        capNhatAnhTrongTraiTim(compressedUrl);
+                        if (labelSpan) labelSpan.textContent = "❤️ Đã chọn ảnh giữa nét HD ✓";
+                    });
+                };
+
+                if (!IMGBB_API_KEY || IMGBB_API_KEY === "DAN_API_KEY_CUA_BAN_VAO_DAY") {
+                    luuDuPhong();
+                    return;
+                }
+
+                try {
+                    const formData = new FormData();
+                    formData.append("image", rawDataUrl.split(",")[1]);
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY.trim()}`, {
+                        method: "POST",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        uploadedCenterImg = data.data.url;
+                        capNhatAnhTrongTraiTim(data.data.url);
+                        if (labelSpan) labelSpan.textContent = "❤️ Đã tải HD ảnh giữa ✓";
+                    } else {
+                        luuDuPhong();
+                    }
+                } catch (err) {
+                    luuDuPhong();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function xuLyChonAnh(input, index) {
+            const file = input.files[0];
+            if (!file) return;
+            const prevEl = document.getElementById(`prev-${index}`);
+            const labelSpan = input.parentElement.querySelector("span");
+            if (labelSpan) labelSpan.textContent = "Đang xử lý...";
+
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                const rawDataUrl = e.target.result;
+                if (prevEl) prevEl.src = rawDataUrl;
+
+                const luuDuPhong = () => {
+                    nenAnhSieuNhe(rawDataUrl, 240, 0.72, (compressedUrl) => {
+                        uploadedImages[index] = compressedUrl;
+                        if (labelSpan) labelSpan.textContent = "Đã chọn ✓";
+                    });
+                };
+
+                if (!IMGBB_API_KEY || IMGBB_API_KEY === "DAN_API_KEY_CUA_BAN_VAO_DAY") {
+                    luuDuPhong();
+                    return;
+                }
+
+                try {
+                    if (labelSpan) labelSpan.textContent = "Đang tải HD...";
+                    const formData = new FormData();
+                    formData.append("image", rawDataUrl.split(",")[1]);
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY.trim()}`, {
+                        method: "POST",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        uploadedImages[index] = data.data.url;
+                        if (labelSpan) labelSpan.textContent = "Đã tải HD ✓";
+                    } else {
+                        luuDuPhong();
+                    }
+                } catch (err) {
+                    luuDuPhong();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function taoDuongLink() {
+            try {
+                const passVal = document.getElementById("inp-pass").value.trim();
+                if (!/^\d{4}$/.test(passVal)) {
+                    alert("Vui lòng nhập mật khẩu gồm đúng 4 chữ số!");
+                    return;
+                }
+
+                const daysInput = document.getElementById("inp-days").value;
+                const daysVal = daysInput !== "" ? parseInt(daysInput, 10) : 0;
+
+                const selMusic = document.getElementById("inp-music-select").value;
+                const customMusic = document.getElementById("inp-music-custom").value.trim();
+                const musicVal = (selMusic === "custom" && customMusic) ? customMusic : selMusic;
+
+                const captionsVal = [0, 1, 2, 3].map(i => {
+                    const val = document.getElementById(`inp-caption-${i}`).value.trim();
+                    return val || `Kỷ niệm ${i + 1}`;
+                });
+
+                const newData = {
+                    pass: passVal,
+                    title: document.getElementById("inp-title").value.trim() || "Anh & Em",
+                    date: document.getElementById("inp-date").value || "2024-06-23",
+                    days: daysVal,
+                    music: musicVal,
+                    centerImg: uploadedCenterImg,
+                    imgs: uploadedImages,
+                    captions: captionsVal,
+                    letter: document.getElementById("inp-letter").value.trim() || CONFIG.letter
+                };
+
+                const safeEncoded = encodeSafeData(newData);
+                const baseUrl = window.location.href.split("?")[0];
+                const finalUrl = `${baseUrl}?data=${safeEncoded}`;
+
+                document.getElementById("generated-url").value = finalUrl;
+                const resultBox = document.getElementById("share-result");
+                resultBox.style.display = "block";
+                resultBox.scrollIntoView({ behavior: "smooth" });
+                CONFIG = newData;
+            } catch (err) {
+                alert("Lỗi xuất link: " + err.message);
+            }
+        }
+
+        function copyLink() {
+            const urlInput = document.getElementById("generated-url");
+            urlInput.focus();
+            urlInput.select();
+            urlInput.setSelectionRange(0, 999999);
+            try {
+                if (document.execCommand("copy")) {
+                    alert("Đã sao chép đường link thành công!");
+                    return;
+                }
+            } catch (err) {}
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(urlInput.value).then(() => alert("Đã sao chép đường link thành công!"));
+            }
+        }
+
+        function xemThuNgay() {
+            CONFIG.centerImg = uploadedCenterImg;
+            CONFIG.imgs = [...uploadedImages];
+            CONFIG.title = document.getElementById("inp-title").value.trim() || "Anh & Em";
+            CONFIG.pass = document.getElementById("inp-pass").value.trim() || "1234";
+            const daysInput = document.getElementById("inp-days").value;
+            CONFIG.days = daysInput !== "" ? parseInt(daysInput, 10) : 0;
+            CONFIG.letter = document.getElementById("inp-letter").value.trim() || CONFIG.letter;
+            CONFIG.captions = [0, 1, 2, 3].map(i => {
+                const val = document.getElementById(`inp-caption-${i}`).value.trim();
+                return val || `Kỷ niệm ${i + 1}`;
+            });
+
+            apDungDuLieuLenGiaoDien();
+            document.getElementById("creator-screen").style.display = "none";
+        }
+
+        function quayLaiTao() {
+            window.location.href = window.location.href.split("?")[0];
+        }
+
+        let inputPass = "";
+        const dots = document.querySelectorAll(".dot");
+        const passMsg = document.getElementById("pass-msg");
+        const lockBox = document.getElementById("lock-box");
+
+        document.querySelectorAll(".key[data-num]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (inputPass.length < 4) {
+                    inputPass += btn.dataset.num;
+                    capNhatChamTron();
+                    if (inputPass.length === 4) kiemTraMatKhau();
+                }
+            });
+        });
+
+        document.getElementById("btn-clear").addEventListener("click", () => {
+            inputPass = "";
+            capNhatChamTron();
+            passMsg.textContent = "";
+        });
+
+        document.getElementById("btn-del").addEventListener("click", () => {
+            inputPass = inputPass.slice(0, -1);
+            capNhatChamTron();
+            passMsg.textContent = "";
+        });
+
+        function capNhatChamTron() {
+            dots.forEach((dot, idx) => dot.classList.toggle("active", idx < inputPass.length));
+        }
+
+        function kiemTraMatKhau() {
+            if (inputPass === CONFIG.pass) {
+                passMsg.style.color = "#80ffdb";
+                passMsg.textContent = "Mật khẩu chính xác! Đang mở khóa... ❤️";
+                if (bgMusic) {
+                    bgMusic.play().then(() => {
+                        dangPhatNhac = true;
+                        document.getElementById("music-text").textContent = "Tắt Nhạc";
+                    }).catch(() => {});
+                }
+                setTimeout(() => {
+                    document.getElementById("lock-screen").classList.add("unlocked");
+                    banPhaoHoa();
+                }, 450);
+            } else {
+                passMsg.style.color = "#ff758f";
+                passMsg.textContent = "Sai mật khẩu rồi, thử lại nhé! 💔";
+                lockBox.classList.add("shake");
+                setTimeout(() => lockBox.classList.remove("shake"), 400);
+                setTimeout(() => {
+                    inputPass = "";
+                    capNhatChamTron();
+                }, 400);
+            }
+        }
+
+        function capNhatDongHo() {
+            const now = new Date();
+            const days = CONFIG.days !== undefined ? CONFIG.days : 0;
+            document.getElementById("love-timer").innerHTML =
+                `Bên nhau: <b>${days}</b> ngày <b>${now.getHours()}</b> giờ <b>${now.getMinutes()}</b> phút <b>${now.getSeconds()}</b> giây ❤️`;
+        }
+        setInterval(capNhatDongHo, 1000);
+
+        function xemAnh(index) {
+            document.getElementById("modal-img").src = CONFIG.imgs[index];
+            document.getElementById("modal-title").textContent = (CONFIG.captions && CONFIG.captions[index]) ? CONFIG.captions[index] : `Kỷ Niệm #${index + 1}`;
+            document.getElementById("photo-modal").style.display = "flex";
+        }
+
+        let typeInterval;
+        function moThiep() {
+            document.getElementById("letter-modal").style.display = "flex";
+            const textEl = document.getElementById("typewriter-text");
+            textEl.textContent = "";
+            clearInterval(typeInterval);
+            let i = 0;
+            typeInterval = setInterval(() => {
+                if (i < CONFIG.letter.length) {
+                    textEl.textContent += CONFIG.letter.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typeInterval);
+                }
+            }, 45);
+        }
+
+        function dongModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function toggleNhac() {
+            const text = document.getElementById("music-text");
+            if (!dangPhatNhac) {
+                bgMusic.play().catch(() => {});
+                dangPhatNhac = true;
+                text.textContent = "Tắt Nhạc";
+            } else {
+                bgMusic.pause();
+                dangPhatNhac = false;
+                text.textContent = "Bật Nhạc";
+            }
+        }
+
+        document.addEventListener("click", function () {
+            if (bgMusic && bgMusic.paused && !dangPhatNhac) {
+                bgMusic.play().then(() => {
+                    dangPhatNhac = true;
+                    document.getElementById("music-text").textContent = "Tắt Nhạc";
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let w, h, particles = [], fireworks = [], stars = [], shootingStars = [];
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        for (let i = 0; i < 220; i++) {
+            stars.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                radius: Math.random() * 1.6 + 0.3,
+                alpha: Math.random(),
+                twinkleSpeed: (Math.random() * 0.02 + 0.005) * (Math.random() > 0.5 ? 1 : -1)
+            });
+        }
+
+        function getHeartPoint(t) {
+            const scale = Math.min(w, h) / 36;
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            return { x: w / 2 + x * scale, y: h / 2 + y * scale - 15 };
+        }
+
+        for (let i = 0; i < 650; i++) {
+            const pos = getHeartPoint(Math.random() * Math.PI * 2);
+            particles.push({
+                x: Math.random() * w, y: Math.random() * h,
+                tx: pos.x + (Math.random() - 0.5) * 14,
+                ty: pos.y + (Math.random() - 0.5) * 14,
+                size: Math.random() * 2.4 + 0.8,
+                speed: Math.random() * 0.04 + 0.02,
+                color: Math.random() > 0.3 ? "#ffccd5" : "#fff0f3"
+            });
+        }
+
+        function banPhaoHoa() {
+            for (let k = 0; k < 5; k++) {
+                const cx = w * (0.2 + Math.random() * 0.6);
+                const cy = h * (0.15 + Math.random() * 0.45);
+                const colors = ["#fff0f3", "#ffccd5", "#ffd166", "#ff85a2", "#ffffff"];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 55; i++) {
+                    const angle = (Math.PI * 2 / 55) * i;
+                    const speed = Math.random() * 4 + 1.5;
+                    fireworks.push({
+                        x: cx, y: cy,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        alpha: 1, color: color
+                    });
+                }
+            }
+        }
+
+        setInterval(() => {
+            const creatorHidden = document.getElementById("creator-screen").style.display === "none";
+            if (creatorHidden) banPhaoHoa();
+        }, 2500);
+
+        function veBauTroiSao() {
+            stars.forEach(s => {
+                s.alpha += s.twinkleSpeed;
+                if (s.alpha >= 1) { s.alpha = 1; s.twinkleSpeed *= -1; }
+                if (s.alpha <= 0.15) { s.alpha = 0.15; s.twinkleSpeed *= -1; }
+
+                ctx.save();
+                ctx.globalAlpha = s.alpha;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "#ffffff";
+                ctx.fill();
+                ctx.restore();
+            });
+
+            if (Math.random() < 0.015) {
+                shootingStars.push({
+                    x: Math.random() * w * 0.8,
+                    y: Math.random() * h * 0.35,
+                    vx: Math.random() * 8 + 6,
+                    vy: Math.random() * 4 + 3,
+                    len: Math.random() * 70 + 40,
+                    alpha: 1
+                });
+            }
+
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const ss = shootingStars[i];
+                ss.x += ss.vx;
+                ss.y += ss.vy;
+                ss.alpha -= 0.02;
+
+                if (ss.alpha <= 0) {
+                    shootingStars.splice(i, 1);
+                } else {
+                    ctx.save();
+                    ctx.globalAlpha = ss.alpha;
+                    const grad = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y - ss.len * 0.5);
+                    grad.addColorStop(0, "#ffffff");
+                    grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(ss.x, ss.y);
+                    ctx.lineTo(ss.x - ss.len, ss.y - ss.len * 0.5);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        }
+
+        function veAnhBenTrongTraiTim(beat) {
+            if (!isHeartImageLoaded || !heartCenterImageObj.complete) return;
+
+            const scale = (Math.min(w, h) / 36) * beat;
+            const centerX = w / 2;
+            const centerY = h / 2 - 15;
+
+            ctx.save();
+            ctx.beginPath();
+            for (let i = 0; i <= 200; i++) {
+                const t = (i / 200) * Math.PI * 2;
+                const hx = 16 * Math.pow(Math.sin(t), 3);
+                const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                const px = centerX + hx * scale;
+                const py = centerY + hy * scale;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.clip();
+
+            const heartWidth = 33 * scale;
+            const heartHeight = 31 * scale;
+            const heartTop = centerY - 13.5 * scale;
+            const heartLeft = centerX - heartWidth / 2;
+
+            const imgRatio = heartCenterImageObj.width / heartCenterImageObj.height;
+            const boxRatio = heartWidth / heartHeight;
+            let drawW, drawH, offsetX, offsetY;
+
+            if (imgRatio > boxRatio) {
+                drawH = heartHeight;
+                drawW = heartHeight * imgRatio;
+                offsetX = heartLeft - (drawW - heartWidth) / 2;
+                offsetY = heartTop;
+            } else {
+                drawW = heartWidth;
+                drawH = heartWidth / imgRatio;
+                offsetX = heartLeft;
+                offsetY = heartTop - (drawH - heartHeight) / 2;
+            }
+
+            ctx.drawImage(heartCenterImageObj, offsetX, offsetY, drawW, drawH);
+
+            const grad = ctx.createRadialGradient(centerX, centerY, heartWidth * 0.25, centerX, centerY, heartWidth * 0.55);
+            grad.addColorStop(0, "rgba(255, 133, 162, 0)");
+            grad.addColorStop(1, "rgba(255, 77, 136, 0.25)");
+            ctx.fillStyle = grad;
+            ctx.fillRect(heartLeft, heartTop, heartWidth, heartHeight);
+
+            ctx.restore();
+        }
+
+        function loop() {
+            ctx.fillStyle = "rgba(10, 14, 28, 0.28)";
+            ctx.fillRect(0, 0, w, h);
+            const beat = 1 + Math.sin(Date.now() * 0.004) * 0.045;
+
+            veBauTroiSao();
+            veAnhBenTrongTraiTim(beat);
+
+            particles.forEach(p => {
+                p.x += (w / 2 + (p.tx - w / 2) * beat - p.x) * p.speed;
+                p.y += (h / 2 + (p.ty - h / 2) * beat - p.y) * p.speed;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const f = fireworks[i];
+                f.x += f.vx; f.y += f.vy; f.vy += 0.04; f.alpha -= 0.015;
+                if (f.alpha <= 0) fireworks.splice(i, 1);
+                else {
+                    ctx.save();
+                    ctx.globalAlpha = f.alpha;
+                    ctx.beginPath();
+                    ctx.arc(f.x, f.y, 2.2, 0, Math.PI * 2);
+                    ctx.fillStyle = f.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+</html>

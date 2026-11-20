@@ -1,0 +1,635 @@
+/* ==========================================
+   1. CÀI ĐẶT CHUNG & RESET
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background: #06020a;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* ==========================================
+   2. MÀN HÌNH TẠO THIỆP (CREATOR MODE)
+   ========================================== */
+#creator-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #2b0618, #590d22, #ff4d88);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Căn từ trên xuống để không bao giờ bị khuất nút ở dưới */
+    z-index: 200;
+    padding: 24px 16px 60px;
+    overflow-y: auto;
+}
+
+.creator-card {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    padding: 24px;
+    width: 100%;
+    max-width: 460px;
+    color: #fff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    margin: auto 0;
+}
+
+.creator-card {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+    padding: 26px 24px;
+    max-width: 480px;
+    width: 100%;
+    color: #fff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    max-height: 92vh;
+    overflow-y: auto;
+}
+
+.creator-card h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.creator-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #ffd6e0;
+    margin-bottom: 18px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #ffe3ec;
+}
+
+.creator-card input, .creator-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 6px;
+    outline: none;
+}
+
+.creator-card input:focus, .creator-card textarea:focus {
+    border-color: #ff85a2;
+}
+
+.upload-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.upload-item {
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.upload-item:hover {
+    border-color: #ff85a2;
+    background: rgba(255, 77, 136, 0.2);
+}
+
+.upload-item input[type="file"] {
+    display: none;
+}
+
+.upload-item img {
+    width: 100%;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.upload-item span {
+    font-size: 11px;
+    color: #ffd6e0;
+    display: block;
+}
+
+.btn-generate {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #ff0844, #ff758c);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 6px;
+    box-shadow: 0 8px 20px rgba(255, 8, 68, 0.4);
+    transition: 0.2s;
+}
+
+.btn-generate:hover {
+    transform: translateY(-2px);
+}
+
+#share-result {
+    margin-top: 16px;
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+    text-align: center;
+}
+
+#share-result p {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #80ffdb;
+}
+
+.link-box {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.link-box input {
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #ffd6e0;
+}
+
+.link-box button {
+    padding: 0 16px;
+    border-radius: 10px;
+    border: none;
+    background: #ff4d88;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-preview {
+    width: 100%;
+    padding: 9px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: transparent;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ==========================================
+   3. MÀN HÌNH KHÓA MẬT KHẨU (GLASSMORPHISM)
+   ========================================== */
+#lock-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #3b0d36 0%, #09030f 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    padding: 16px;
+}
+
+#lock-screen.unlocked {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.15);
+}
+
+.lock-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 28px;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(255, 77, 136, 0.25);
+}
+
+.couple-avatar {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(45deg, #ff0844, #ffb199);
+    box-shadow: 0 0 20px rgba(255, 77, 136, 0.6);
+}
+
+.couple-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.lock-card h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    color: #ffccd5;
+    margin-bottom: 4px;
+}
+
+.sub-text {
+    font-size: 13px;
+    color: #e0aaff;
+    margin-bottom: 18px;
+}
+
+/* 4 chấm tròn hiển thị mật khẩu */
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #ff85a2;
+    background: transparent;
+    transition: 0.2s;
+}
+
+.dot.active {
+    background: #ff4d88;
+    box-shadow: 0 0 12px #ff4d88;
+    transform: scale(1.2);
+}
+
+/* Bàn phím số 3 cột chuẩn điện thoại */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+.key {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.key:hover {
+    background: rgba(255, 77, 136, 0.45);
+    border-color: #ff85a2;
+    transform: scale(1.06);
+}
+
+.key:active {
+    transform: scale(0.92);
+}
+
+.key.action {
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffb3c6;
+}
+
+#pass-msg {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #ff758f;
+    min-height: 18px;
+    font-weight: 600;
+}
+
+/* Hiệu ứng rung khi nhập sai mật khẩu */
+.shake {
+    animation: shakeAnim 0.4s ease;
+}
+
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-6px); }
+}
+
+/* ==========================================
+   4. KHÔNG GIAN VŨ TRỤ & ALBUM POLAROID
+   ========================================== */
+#universe {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #ff758f 0%, #c9184a 45%, #590d22 100%);
+}
+
+#canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.top-banner {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    padding: 0 12px;
+}
+
+.glow-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 42px;
+    color: #fff;
+    text-shadow: 0 0 15px #ff4d88, 0 0 30px #ff0844;
+    margin-bottom: 6px;
+}
+
+.love-timer {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 14px;
+    color: #ffe3ec;
+}
+
+.love-timer b {
+    color: #ff85a2;
+    font-size: 16px;
+}
+
+/* 4 Khung ảnh Polaroid bay quanh trái tim */
+.gallery-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.polaroid {
+    position: absolute;
+    width: 110px;
+    background: #fff;
+    padding: 6px 6px 18px;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.3s ease;
+    animation: floatAnim 4s ease-in-out infinite;
+}
+
+.polaroid:hover {
+    transform: scale(1.15) rotate(0deg) !important;
+    z-index: 20;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 95px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.polaroid span {
+    display: block;
+    color: #333;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.p1 { top: 18%; left: 8%; transform: rotate(-10deg); animation-delay: 0s; }
+.p2 { top: 18%; right: 8%; transform: rotate(10deg); animation-delay: 1s; }
+.p3 { bottom: 18%; left: 8%; transform: rotate(8deg); animation-delay: 2s; }
+.p4 { bottom: 18%; right: 8%; transform: rotate(-8deg); animation-delay: 1.5s; }
+
+@keyframes floatAnim {
+    0%, 100% { transform: translateY(0) rotate(var(--r, -5deg)); }
+    50% { transform: translateY(-10px) rotate(var(--r, 5deg)); }
+}
+
+/* Thanh công cụ phía dưới (Dock) */
+.bottom-dock {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(18px);
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    z-index: 15;
+}
+
+.dock-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 14px;
+    transition: 0.2s;
+}
+
+.dock-btn span:first-child {
+    font-size: 20px;
+}
+
+.dock-btn:hover {
+    background: rgba(255, 77, 136, 0.35);
+    transform: translateY(-3px);
+}
+
+/* ==========================================
+   5. POPUP XEM ẢNH & MỞ THIỆP CHÚC
+   ========================================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+    padding: 20px;
+}
+
+.photo-detail-card, .letter-card {
+    background: linear-gradient(145deg, #2b0f3a, #170724);
+    border: 1px solid rgba(255, 133, 162, 0.4);
+    border-radius: 24px;
+    padding: 24px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(255, 77, 136, 0.35);
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.photo-detail-card img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 12px;
+}
+
+.flower-anim {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.letter-card h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    color: #ff85a2;
+    margin-bottom: 12px;
+}
+
+#typewriter-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #ffe3ec;
+    min-height: 80px;
+    margin-bottom: 18px;
+    white-space: pre-wrap;
+}
+
+.btn-close {
+    padding: 10px 26px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(90deg, #ff0844, #ff758c);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+/* Ảnh chính lồng ở giữa vòng trái tim */
+.center-heart-photo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(45deg, #ff85a2, #fff0f3, #ff4d88);
+    box-shadow: 0 0 28px rgba(255, 133, 162, 0.85), 0 0 60px rgba(255, 8, 68, 0.45);
+    z-index: 3;
+    pointer-events: none;
+    animation: heartPhotoBeat 1.57s ease-in-out infinite;
+}
+
+/* Ảnh chính lồng vừa khít khoảng rỗng bên trong vòng trái tim */
+.center-heart-photo {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52vmin;
+    height: 52vmin;
+    max-width: 310px;
+    max-height: 310px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(45deg, #ff85a2, #fff0f3, #ff4d88);
+    box-shadow: 0 0 30px rgba(255, 133, 162, 0.8), inset 0 0 20px rgba(255, 77, 136, 0.4);
+    z-index: 2;
+    pointer-events: none;
+    animation: heartPhotoBeat 1.57s ease-in-out infinite;
+}
+
+.center-heart-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+@keyframes heartPhotoBeat {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.045); }
+}
